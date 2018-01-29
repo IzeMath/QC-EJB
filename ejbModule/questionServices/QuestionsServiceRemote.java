@@ -1,4 +1,4 @@
-package questionsServices;
+package questionServices;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.quizcon.Question;
 import org.quizcon.QuestionSimple;
 
 @Remote
-public interface QuestionsServicesRemote {
+public interface QuestionsServiceRemote {
 	
 	public Question getRandQuestion();
 	public void createQuestionSimple(QuestionSimple quest);

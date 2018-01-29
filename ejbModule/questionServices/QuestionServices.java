@@ -1,4 +1,4 @@
-package questionsServices;
+package questionServices;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import org.quizcon.QuestionSimple;
  * Session Bean implementation class QuestionsServices
  */
 @Stateless
-public class QuestionsServices implements QuestionsServicesRemote {
+public class QuestionServices implements QuestionsServiceRemote {
 
 	@PersistenceContext(unitName = "QC-JPA")
 	EntityManager em;
@@ -22,7 +22,7 @@ public class QuestionsServices implements QuestionsServicesRemote {
 	/**
 	 * Default constructor.
 	 */
-	public QuestionsServices() {
+	public QuestionServices() {
 		// TODO Auto-generated constructor stub
 	}
 
