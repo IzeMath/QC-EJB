@@ -5,15 +5,17 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import org.quizcon.Question;
-import org.quizcon.QuestionSimple;
+import org.quizcon.QuestionParameters;
 
 @Remote
 public interface QuestionsServiceRemote {
 	
 	public Question getRandQuestion();
-	public void createQuestionSimple(QuestionSimple quest);
+	public List<Question> getQuestionsWithParameters(QuestionParameters qp);
+	public void createQuestionSimple(Question quest);
 	public List<String> getAllTheme();
 	public List<String> getAllDifficulties();
-	public Long getNbQuestionWithParameters(List<String> listThemes, List<String> listDifficulties);
+	public List<String> getAllLangs();
+	public Long getNbQuestionWithParameters(QuestionParameters qp);
 
 }
