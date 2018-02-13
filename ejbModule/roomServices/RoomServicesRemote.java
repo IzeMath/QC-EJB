@@ -9,10 +9,10 @@ import org.quizcon.Room;
 @Remote
 public interface RoomServicesRemote {
 	
-	public int createRoom();
+	public int createRoom(String name, String password);
 	public void addPlayer(int id);
 	public void removePlayer(int id);
 	public List<Room> getListRoom();
-	public boolean exist(int id);
+	public boolean canAccess(int id, String password);
 
 }

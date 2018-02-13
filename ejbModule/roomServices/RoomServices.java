@@ -27,12 +27,12 @@ public class RoomServices implements RoomServicesRemote {
 	}
 
 	@Override
-	public int createRoom() {
+	public int createRoom(final String name, final String password) {
 		int id = 0;
 		do {
 			id = ThreadLocalRandom.current().nextInt(100000, 999999);
 		} while (em.find(Room.class, id) != null);
-		final Room r = new Room();
+		final Room r = new Room(id, name, password);
 		em.persist(r);
 		return id;
 
@@ -59,11 +59,14 @@ public class RoomServices implements RoomServicesRemote {
 		int oldNbPlayers = r.getNbPlayers();
 		r.setNbPlayers(oldNbPlayers--);
 		em.merge(r);
-		
+
 	}
 
 	@Override
-	public boolean exist(final int id) {
-		return (em.find(Room.class, id) != null);
+	public boolean canAccess(final int id, final String password) {
+		final Query query = em.createNamedQuery("canAccess", Room.class);
+		query.setParameter("id", id);
+		query.setParameter("password", password);
+		return !query.getResultList().isEmpty();
 	}
 }
