@@ -64,9 +64,19 @@ public class RoomServices implements RoomServicesRemote {
 
 	@Override
 	public boolean canAccess(final int id, final String password) {
-		final Query query = em.createNamedQuery("canAccess", Room.class);
-		query.setParameter("id", id);
-		query.setParameter("password", password);
-		return !query.getResultList().isEmpty();
+		final Room r = em.find(Room.class, id);
+		if (r != null) {
+			if (r.getPassword() != null) {
+				if (r.getPassword().equals(password)) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return true;
+			}
+		} else {
+			return false;
+		}
 	}
 }
