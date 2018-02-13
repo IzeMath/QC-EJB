@@ -8,7 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.quizcon.Question;
-import org.quizcon.QuestionSimple;
+import org.quizcon.QuestionParameters;
 
 /**
  * Session Bean implementation class QuestionsServices
@@ -42,13 +42,13 @@ public class QuestionServices implements QuestionsServiceRemote {
 	 * QuestionSimple)
 	 */
 	@Override
-	public void createQuestionSimple(final QuestionSimple quest) {
+	public void createQuestionSimple(final Question quest) {
 		em.persist(quest);
 	}
 
 	@Override
 	public List<String> getAllTheme() {
-		final Query query = em.createNamedQuery("getAllTheme", String.class);
+		final Query query = em.createNamedQuery("getAllThemes", String.class);
 		return query.getResultList();
 	}
 
@@ -59,11 +59,29 @@ public class QuestionServices implements QuestionsServiceRemote {
 	}
 
 	@Override
-	public Long getNbQuestionWithParameters(final List<String> listThemes, final List<String> listDifficulties) {
-		final Query query = em.createNamedQuery("getNbQuestionInWhere", Long.class);
-		query.setParameter("listDifficulties", listDifficulties);
-		query.setParameter("listThemes", listThemes);
+	public Long getNbQuestionWithParameters(final QuestionParameters qp) {
+		final Query query = em.createNamedQuery("getNbQuestionsInWhere", Long.class);
+		query.setParameter("listDifficulties", qp.getArdf());
+		query.setParameter("listThemes", qp.getArth());
+		query.setParameter("listLangs", qp.getArlg());
 		return (Long) query.getSingleResult();
+	}
+
+	@Override
+	public List<String> getAllLangs() {
+		final Query query = em.createNamedQuery("getAllLangs", String.class);
+		return query.getResultList();
+	}
+	
+	@Override
+	public List<Question> getQuestionsWithParameters(final QuestionParameters qp) {
+		final Query query = em.createNamedQuery("getQuestionsInWhere", Question.class);
+		query.setMaxResults(qp.getNbQuestion());
+		query.setParameter("listDifficulties", qp.getArdf());
+		query.setParameter("listThemes", qp.getArth());
+		query.setParameter("listLangs", qp.getArlg());
+		// TODO Auto-generated method stub
+		return query.getResultList();
 	}
 
 }
