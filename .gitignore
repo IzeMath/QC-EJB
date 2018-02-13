@@ -22,5 +22,9 @@
 hs_err_pid*
 .classpath
 .classpath
+<<<<<<< HEAD
 .classpath
 .classpath
+=======
+.project
+>>>>>>> ee59b040b240b5b95793520eb66beb55c5eed5fb
