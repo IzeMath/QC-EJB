@@ -41,9 +41,11 @@ public class RoomServices implements RoomServicesRemote {
 	@Override
 	public void addPlayer(final int id) {
 		final Room r = em.find(Room.class, id);
-		int oldNbPlayers = r.getNbPlayers();
-		r.setNbPlayers(oldNbPlayers++);
-		em.merge(r);
+		if (r != null) {
+			final int oldNbPlayers = r.getNbPlayers() + 1;
+			r.setNbPlayers(oldNbPlayers);
+			em.merge(r);
+		}
 	}
 
 	@Override
@@ -56,9 +58,15 @@ public class RoomServices implements RoomServicesRemote {
 	@Override
 	public void removePlayer(final int id) {
 		final Room r = em.find(Room.class, id);
-		int oldNbPlayers = r.getNbPlayers();
-		r.setNbPlayers(oldNbPlayers--);
-		em.merge(r);
+		if (r != null) {
+			final int oldNbPlayers = r.getNbPlayers() - 1;
+			if (oldNbPlayers <= 0) {
+				em.remove(r);
+			} else {
+				r.setNbPlayers(oldNbPlayers);
+				em.merge(r);
+			}
+		}
 
 	}
 
