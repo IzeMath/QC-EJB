@@ -14,5 +14,6 @@ public interface RoomServicesRemote {
 	public void removePlayer(int id);
 	public List<Room> getListRoom();
 	public boolean canAccess(int id, String password);
+	public void deleteRoom(int id);
 
 }

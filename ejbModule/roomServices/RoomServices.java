@@ -87,4 +87,11 @@ public class RoomServices implements RoomServicesRemote {
 			return false;
 		}
 	}
+
+	@Override
+	public void deleteRoom(final int id) {
+		final Room r = em.find(Room.class, id);
+		em.remove(r);
+		
+	}
 }
