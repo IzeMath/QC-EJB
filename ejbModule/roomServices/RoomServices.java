@@ -32,7 +32,13 @@ public class RoomServices implements RoomServicesRemote {
 		do {
 			id = ThreadLocalRandom.current().nextInt(100000, 999999);
 		} while (em.find(Room.class, id) != null);
-		final Room r = new Room(id, name, password);
+		
+		String roomPass = password;
+		if (roomPass.equals("")) {
+			roomPass = null;
+		}
+		
+		final Room r = new Room(id, name, roomPass);
 		em.persist(r);
 		return id;
 
@@ -91,7 +97,9 @@ public class RoomServices implements RoomServicesRemote {
 	@Override
 	public void deleteRoom(final int id) {
 		final Room r = em.find(Room.class, id);
-		em.remove(r);
-		
+		if (r != null) {
+			em.remove(r);
+		}
+
 	}
 }

@@ -2,6 +2,7 @@ package userService;
 
 import java.util.Hashtable;
 import java.util.List;
+import java.util.UUID;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -51,26 +52,37 @@ public class UserServices implements UserServicesRemote {
 		final Utilisateur usrData = em.find(Utilisateur.class, user.getId());
 		float nbQuestionT = 0;
 		float nbReponseT = 0;
-		
+
 		for (final Statistique st : usrData.getlStat()) {
-			final float nbRep =  st.getNbReponse();
+			final float nbRep = st.getNbReponse();
 			final float nbQuest = st.getNbQuestions();
 			htStats.put(st.getTheme(), (nbRep / nbQuest) * 100);
 			nbQuestionT += nbQuest;
 			nbReponseT += nbRep;
 		}
-		htStats.put("Total", (nbReponseT / nbQuestionT) *100 );
-		
-		
+		htStats.put("Total", (nbReponseT / nbQuestionT) * 100);
+
 		return htStats;
 	}
 
 	@Override
-	public void createUser(final String username, final String email, final String password, final List<Statistique> lStat) {
+	public void createUser(final String username, final String email, final String password,
+			final List<Statistique> lStat) {
 		final Utilisateur user = new Utilisateur(username, email, password);
 		user.setlStat(lStat);
 		em.persist(user);
-		
+
+	}
+
+	@Override
+	public Utilisateur getById(final UUID id) {
+		return em.find(Utilisateur.class, id);
+	}
+
+	@Override
+	public void updateStat(final Utilisateur user) {
+		em.merge(user);
+
 	}
 
 }
